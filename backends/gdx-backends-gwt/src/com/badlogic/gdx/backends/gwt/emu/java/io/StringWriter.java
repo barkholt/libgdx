@@ -34,4 +34,8 @@ public class StringWriter extends Writer {
 
 	public void close () throws IOException {
 	}
+
+	public StringBuilder getBuffer () {
+		return out;
+	}
 }
