@@ -17,6 +17,7 @@
 package com.badlogic.gdx.backends.gwt.webaudio;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.EndedEvent;
 import com.google.gwt.media.client.Audio;
@@ -49,9 +50,9 @@ public class WebAudioAPIMusic implements Music {
 
 	public native JavaScriptObject createMediaElementAudioSourceNode(JavaScriptObject audioContext, JavaScriptObject audioElement) /*-{
 		var source = audioContext.createMediaElementSource(audioElement);
-				var self = this;
+		var self = this;
 		audioElement.addEventListener("ended", function(){
-			self.@com.badlogic.gdx.backends.gwt.webaudio.WebAudioAPIMusic::onCompletionListener.onCompletion(self)();
+			self.@com.badlogic.gdx.backends.gwt.webaudio.WebAudioAPIMusic::onCompletionListener.onCompletion(Lcom/badlogic/gdx/audio/Music;)(self);
 		});
 		return source;
 	}-*/;
@@ -94,12 +95,19 @@ public class WebAudioAPIMusic implements Music {
 		// Volume can be controlled on the Audio element, or as part of the audio graph. We do it as part of the graph to ensure we
 		// use as much common
 		// code as possible with the sound effect code.
+		
+		GwtApplication.consoleLog("Set volume to "+volume+", this: "+this+", audioControlGraph: "+audioControlGraph);
+		
 		audioControlGraph.setVolume(volume);
 	}
 
 	@Override
 	public float getVolume () {
-		return audioControlGraph.getVolume();
+		float volume = audioControlGraph.getVolume();
+		
+		GwtApplication.consoleLog("Get volume as "+volume+", this: "+this+", audioControlGraph: "+audioControlGraph);
+
+		return volume;
 	}
 
 	@Override
